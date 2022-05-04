@@ -1,10 +1,3 @@
-file = open('data.txt', 'r')
-lines = file.readlines()
-data = [[float(record) for record in line.replace('\n', '').split(',')] for line in lines]
-for datum in data:
-    print(datum)
-
-
 # https://www.geeksforgeeks.org/program-decimal-binary-conversion/
 def decimal_to_binary(number):
     precision = 10
@@ -101,5 +94,26 @@ def binary_to_signed_decimal(binary_string):
     return decimal if positive else -decimal
 
 
+def read_data():
+    file = open('data.txt', 'r')
+    lines = file.readlines()
+    data = [[float(record) for record in line.replace('\n', '').split(',')] for line in lines]
+    for datum in data:
+        print(datum)
+    file.close()
+    return data
+
+
+def write_data(data):
+    file = open('binary_data.txt', 'w')
+    for record in data:
+        binary_elements = ''.join([signed_decimal_to_binary(element) for element in record]) + '\n'
+        file.write(binary_elements)
+        print(binary_elements)
+    file.close()
+
+
 print(signed_decimal_to_binary(-0.523))
 print(binary_to_signed_decimal('11111111111111110111101001'))
+parsed_data = read_data()
+write_data(parsed_data)
