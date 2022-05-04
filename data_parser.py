@@ -5,6 +5,7 @@ for datum in data:
     print(datum)
 
 
+# https://www.geeksforgeeks.org/program-decimal-binary-conversion/
 def decimal_to_binary(number):
     precision = 10
     binary = ""
@@ -28,33 +29,77 @@ def decimal_to_binary(number):
     return binary
 
 
+# https://www.geeksforgeeks.org/efficient-method-2s-complement-binary-string/
 def signed_decimal_to_binary(number):
     binary_string = decimal_to_binary(abs(number))
     if abs(number) == number:
         return binary_string
     else:
-        n = len(binary_string)
-        i = n - 1
-        while i >= 0:
-            if binary_string[i] == '1':
-                break
-            i -= 1
+        return get_2s_complement(binary_string)
 
-        if i == -1:
-            return '1' + binary_string
 
-        k = i - 1
-        while k >= 0:
-            if binary_string[k] == '1':
-                binary_string = list(binary_string)
-                binary_string[k] = '0'
-                binary_string = ''.join(binary_string)
-            else:
-                binary_string = list(binary_string)
-                binary_string[k] = '1'
-                binary_string = ''.join(binary_string)
-            k -= 1
-        return binary_string
+def get_2s_complement(binary_string):
+    n = len(binary_string)
+    i = n - 1
+    while i >= 0:
+        if binary_string[i] == '1':
+            break
+        i -= 1
+
+    if i == -1:
+        return '1' + binary_string
+
+    k = i - 1
+    while k >= 0:
+        if binary_string[k] == '1':
+            binary_string = list(binary_string)
+            binary_string[k] = '0'
+            binary_string = ''.join(binary_string)
+        else:
+            binary_string = list(binary_string)
+            binary_string[k] = '1'
+            binary_string = ''.join(binary_string)
+        k -= 1
+    return binary_string
+
+
+# https://www.geeksforgeeks.org/convert-binary-fraction-decimal/
+def binary_to_decimal(binary_string):
+    length = len(binary_string)
+    point = binary_string.find('.')
+
+    if point == -1:
+        point = length
+
+    int_decimal = 0
+    fractional_decimal = 0
+    twos = 1
+
+    for i in range(point - 1, -1, -1):
+        int_decimal += ((ord(binary_string[i]) -
+                         ord('0')) * twos)
+        twos *= 2
+
+    twos = 2
+
+    for i in range(point + 1, length):
+        fractional_decimal += ((ord(binary_string[i]) - ord('0')) / twos)
+        twos *= 2.0
+
+    ans = int_decimal + fractional_decimal
+
+    return ans
+
+
+def binary_to_signed_decimal(binary_string):
+    positive = True
+    if binary_string[0] == '1':
+        binary_string = get_2s_complement(binary_string)
+        positive = False
+
+    decimal = binary_to_decimal(binary_string[0:16] + '.' + binary_string[16:])
+    return decimal if positive else -decimal
 
 
 print(signed_decimal_to_binary(-0.523))
+print(binary_to_signed_decimal('11111111111111110111101001'))
