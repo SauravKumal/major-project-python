@@ -113,7 +113,32 @@ def write_data(data):
     file.close()
 
 
-print(signed_decimal_to_binary(-0.523))
-print(binary_to_signed_decimal('11111111111111110111101001'))
-parsed_data = read_data()
-write_data(parsed_data)
+def parse_output_data():
+    file = open('binary_data_out.txt', 'r')
+    lines = file.readlines()
+    data = [line.replace('\n', '').split(',') for line in lines]
+    _parsed_data = []
+    for record in data:
+        print(record)
+        _parsed_data.append([str(binary_to_signed_decimal(record[0])), str(binary_to_signed_decimal(record[1]))])
+
+    return _parsed_data
+
+
+def write_parsed_data(data):
+    file = open('parsed_data.csv', 'w')
+    count = 1
+    for record in data:
+        line = str(count) + ',' + ','.join(record) + '\n'
+        count = count + 1
+        file.write(line)
+    file.close()
+
+    # print(signed_decimal_to_binary(-0.523))
+    # print(binary_to_signed_decimal('11111111111111110111101001'))
+    # parsed_data = read_data()
+    # write_data(parsed_data)
+
+
+parsed_data = parse_output_data()
+write_parsed_data(parsed_data)
