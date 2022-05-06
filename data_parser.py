@@ -134,11 +134,11 @@ def write_parsed_data(data):
         file.write(line)
     file.close()
 
-    # print(signed_decimal_to_binary(-0.523))
-    # print(binary_to_signed_decimal('11111111111111110111101001'))
-    # parsed_data = read_data()
-    # write_data(parsed_data)
 
+print(signed_decimal_to_binary(-0.523))
+print(binary_to_signed_decimal('11111111111111110111101001'))
+parsed_data = read_data()
+write_data(parsed_data)
 
 parsed_data = parse_output_data()
 write_parsed_data(parsed_data)
